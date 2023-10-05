@@ -7,4 +7,8 @@ import com.company.testing.entity.Department;
 @UiDescriptor("department-edit.xml")
 @EditedEntityContainer("departmentDc")
 public class DepartmentEdit extends StandardEditor<Department> {
+    @Subscribe
+    public void onInitEntity(final InitEntityEvent<Department> event) {
+        
+    }
 }
