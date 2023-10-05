@@ -5,6 +5,7 @@
         <item screen="User.browse" caption="msg://com.company.testing.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
         <item screen="Step.browse" caption="msg://com.company.testing.screen.step/stepBrowse.menu"/>
+        <item screen="Department.browse" caption="msg://com.company.testing.screen.department/departmentBrowse.menu"/>
     </menu>
 
 </menu-config>
