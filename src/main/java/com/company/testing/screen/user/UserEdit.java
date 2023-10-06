@@ -1,7 +1,10 @@
 package com.company.testing.screen.user;
 
 import com.company.testing.entity.OnboardingStatus;
+import com.company.testing.entity.Step;
 import com.company.testing.entity.User;
+import com.company.testing.entity.UserStep;
+import io.jmix.core.DataManager;
 import io.jmix.core.EntityStates;
 import io.jmix.core.security.event.SingleUserPasswordChangeEvent;
 import io.jmix.ui.Notifications;
@@ -9,6 +12,7 @@ import io.jmix.ui.component.Button;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.PasswordField;
 import io.jmix.ui.component.TextField;
+import io.jmix.ui.model.CollectionPropertyContainer;
 import io.jmix.ui.model.DataContext;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -24,6 +29,14 @@ import java.util.TimeZone;
 @EditedEntityContainer("userDc")
 @Route(value = "users/edit", parentPrefix = "users")
 public class UserEdit extends StandardEditor<User> {
+    @Autowired
+    private DataManager dataManager;
+
+    @Autowired
+    private DataContext dataContext;
+
+    @Autowired
+    private CollectionPropertyContainer<UserStep> stepsDc;
 
     @Autowired
     private EntityStates entityStates;
@@ -96,6 +109,29 @@ public class UserEdit extends StandardEditor<User> {
 
     @Subscribe("generateButton")
     public void onGenerateButtonClick(final Button.ClickEvent event) {
-        
+        User user = getEditedEntity();
+
+        if (user.getJoiningDate() == null) {
+            notifications.create()
+                    .withCaption("Cannot generate steps for user without 'Joining date'")
+                    .show();
+            return;
+        }
+
+        List<Step> steps = dataManager.load(Step.class)
+                .query("select s from Step s order by s.sortValue asc")
+                .list();
+
+        for (Step step : steps) {
+            if (stepsDc.getItems().stream().noneMatch(userStep ->
+                    userStep.getStep().equals(step))) {
+                UserStep userStep = dataContext.create(UserStep.class);
+                userStep.setUser(user);
+                userStep.setStep(step);
+                userStep.setDueDate(user.getJoiningDate().plusDays(step.getDuration()));
+                userStep.setSortValue(step.getSortValue());
+                stepsDc.getMutableItems().add(userStep);
+            }
+        }
     }
 }
