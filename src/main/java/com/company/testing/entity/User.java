@@ -19,6 +19,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -77,6 +78,7 @@ public class User implements JmixUserDetails, HasTimeZone {
     @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
 
+    @OrderBy("sortValue")
     @Composition
     @OneToMany(mappedBy = "user")
     private List<UserStep> steps;

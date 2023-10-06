@@ -7,7 +7,9 @@
                   class="com.company.testing.entity.User">
             <fetchPlan extends="_base">
                 <property name="department" fetchPlan="_base"/>
-                <property name="steps" fetchPlan="_base"/>
+                <property name="steps" fetchPlan="_base">
+                    <property name="step" fetchPlan="_base"/>
+                </property>
             </fetchPlan>
             <loader/>
             <collection id="stepsDc" property="steps"/>
@@ -70,10 +72,9 @@
                 <actions>
                 </actions>
                 <columns>
-                    <column id="version"/>
+                    <column id="step.name"/>
                     <column id="dueDate"/>
                     <column id="completedDate"/>
-                    <column id="sortValue"/>
                 </columns>
                 <buttonsPanel>
                     <button id="generateButton" caption="Generate"/>
