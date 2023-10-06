@@ -72,6 +72,7 @@
                 <actions>
                 </actions>
                 <columns>
+                    <column id="completed" caption="" width="50px"/>
                     <column id="step.name"/>
                     <column id="dueDate"/>
                     <column id="completedDate"/>
