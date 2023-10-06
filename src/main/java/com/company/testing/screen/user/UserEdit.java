@@ -5,6 +5,7 @@ import com.company.testing.entity.User;
 import io.jmix.core.EntityStates;
 import io.jmix.core.security.event.SingleUserPasswordChangeEvent;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.component.Button;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.PasswordField;
 import io.jmix.ui.component.TextField;
@@ -91,5 +92,10 @@ public class UserEdit extends StandardEditor<User> {
         if (isNewEntity) {
             getApplicationContext().publishEvent(new SingleUserPasswordChangeEvent(getEditedEntity().getUsername(), passwordField.getValue()));
         }
+    }
+
+    @Subscribe("generateButton")
+    public void onGenerateButtonClick(final Button.ClickEvent event) {
+        
     }
 }

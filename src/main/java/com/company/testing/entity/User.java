@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -80,8 +81,19 @@ public class User implements JmixUserDetails, HasTimeZone {
     @OneToMany(mappedBy = "user")
     private List<UserStep> steps;
 
+    @Column(name = "JOINING_DATE")
+    private LocalDate joiningDate;
+
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
 
     public List<UserStep> getSteps() {
         return steps;
