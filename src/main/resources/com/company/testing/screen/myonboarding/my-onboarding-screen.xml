@@ -16,8 +16,10 @@
         </collection>
     </data>
     <layout>
-        <table id="userStepsTable" height="400px" width="100%" dataContainer="userStepsDc">
+        <table id="userStepsTable" height="400px" width="100%"
+               dataContainer="userStepsDc">
             <columns>
+                <column id="completed" caption="" width="50px"/>
                 <column id="step.name"/>
                 <column id="dueDate"/>
                 <column id="completedDate"/>
