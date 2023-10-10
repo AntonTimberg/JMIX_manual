@@ -5,6 +5,7 @@ import com.company.testing.entity.UserStep;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.component.CheckBox;
+import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.screen.Install;
 import io.jmix.ui.screen.Screen;
@@ -28,6 +29,18 @@ public class MyOnboardingScreen extends Screen {
     @Autowired
     private UiComponents uiComponents;
 
+    @Autowired
+    private Label totalStepsLabel;
+
+    @Autowired
+    private Label completedStepsLabel;
+
+    @Autowired
+    private Label overdueStepsLabel;
+
+    @Autowired
+    private CollectionContainer<UserStep> userStepsDc;
+
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         User user = (User) currentAuthentication.getUser();
@@ -35,5 +48,37 @@ public class MyOnboardingScreen extends Screen {
         userStepsDl.load();
     }
 
+//    @Install(to = "userStepsTable.completed", subject = "columnGenerator")
+//    private Component userStepsTableCompletedColumnGenerator(UserStep userStep) {
+//        CheckBox checkBox = uiComponents.create(CheckBox.class);
+//        checkBox.setValue(userStep.getCompletedDate() != null);
+//        checkBox.addValueChangeListener(e -> {
+//            if (userStep.getCompletedDate() == null) {
+//                userStep.setCompletedDate(LocalDate.now());
+//            } else {
+//                userStep.setCompletedDate(null);
+//            }
+//        });
+//        return (Component) checkBox;
+//    }
+//
+//    private void updateLabels() {
+//        totalStepsLabel.setValue("Total steps: " + userStepsDc.getItems().size());
+//
+//        long completedCount = userStepsDc.getItems().stream()
+//                .filter(us -> us.getCompletedDate() != null)
+//                .count();
+//        completedStepsLabel.setValue("Completed steps: " + completedCount);
+//
+//        long overdueCount = userStepsDc.getItems().stream()
+//                .filter(us -> isOverdue(us))
+//                .count();
+//        overdueStepsLabel.setValue("Overdue steps: " + overdueCount);
+//    }
 
+    private boolean isOverdue(UserStep us) {
+        return us.getCompletedDate() == null
+                && us.getDueDate() != null
+                && us.getDueDate().isBefore(LocalDate.now());
+    }
 }

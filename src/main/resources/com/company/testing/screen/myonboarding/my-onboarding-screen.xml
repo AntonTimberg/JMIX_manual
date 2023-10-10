@@ -16,6 +16,12 @@
         </collection>
     </data>
     <layout>
+        <vbox spacing="true">
+            <label id="totalStepsLabel"/>
+            <label id="completedStepsLabel"/>
+            <label id="overdueStepsLabel"/>
+        </vbox>
+
         <table id="userStepsTable" height="400px" width="100%"
                dataContainer="userStepsDc">
             <columns>
